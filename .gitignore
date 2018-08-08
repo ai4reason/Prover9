@@ -35,3 +35,12 @@ bin/test_complex
 bin/tptp_to_ladr
 bin/unfast
 bin/upper-covers
+provers.src/autosketches4
+provers.src/fof-prover9
+provers.src/ladr_to_tptp
+provers.src/multigoals2
+provers.src/newauto
+provers.src/newsax
+provers.src/prochints
+provers.src/prover9
+provers.src/tptp_to_ladr
