@@ -1,0 +1,220 @@
+*****************************************************************************
+File: Changelog
+
+This file summarizes the changes that have been made since the official
+release of LADR 2009-11A.  The newest changes are at the top.
+*****************************************************************************
+
+-----------------------------------------------------------------------------
+
+2017-nov-14: release LADR-2017-11A
+
+2017-nov-12:  search.c, hints.{c,h}, fpa.{c,h}, fpalist.{c,h}, ioutils.{c,h}
+
+   Print_processed_hints is now implemented by traversing the hint index
+   structure.
+
+2017-nov-07: clause_eval.c
+
+   Add new evaluation type, CL_EVAL_MAX_GEN_EQ.
+
+   A clause has the max_gen_eq property iff it is a positive unit equality
+   with no repeated variables on either side of the equality.
+
+   The CL_EVAL_MAX_GEN_EQ evaluation type allows us to use the max_gen_eq
+   condition in a given selection rule.
+
+   *** Note ***
+
+      This is highly experimental.  The max_gen_eq evaluation currently
+      includes the added requirement that the left and right sides of
+      the equality have different lengths.  This is because we were
+      seeing a very large number of matches that were permutations of
+      the variable positions.
+  
+2017-nov-07: ladr_to_tptp.c
+
+   Set memory size to 8GB.
+
+2017-aug-26: memory.h, memory.c
+
+   Changed the memory used statistic from type int to type long.
+
+2017-may-02: memory.c
+
+   *** CIIRT version only ***
+
+   Changed default memory size to 32GB.
+
+   The motivation for this is that the memory size cannot be set by the
+   user in prooftrans.
+
+   The default remains at 8GB in the distributed version.
+
+2017-apr-26: discrim.h, flatterm.h
+
+   Fixed a bug caused by large problems.  Short integers in flatterms and
+   the discrimination tree index are now type int.
+
+2017-apr-19: search.c
+
+   Flag print_matched_hints now displays 3 lists for each proof.
+
+      Hints matched by a proof clause.
+      Proof clauses that match a hint.
+      Proof clauses that do not match any hints.
+
+2017-apr-04: search-structures.h, search.c
+
+   New parm hint_derivations:  print the derivation of any hint matcher
+   that matches a hint with hint_age (ID) < hint_derivations.
+
+2017-jan-22: search-structures.h, search.c
+
+   New parm max_nohints to specify a limit on the number of given clauses
+   in a row that are not either an input clause or a hint matcher.
+
+-----------------------------------------------------------------------------
+
+2016-dec-28: release LADR-2016-12A
+
+2016-nov-27: clauses.h, clauses.c  
+
+   New function imax_cl_weight for finding max undegraded clause weight
+   in a proof.
+
+2016-nov-20: glist.c
+
+   Replace alist2_remove() with nonrecursive version.
+
+   This avoids hitting a system limit on the size of the recursive stack.
+
+2016-nov-10: term.h, term.c, unify.c, fpa.c
+
+   Distinguished anonymous constants (_AnyConst, _AnyConst_1, ... _AnyConst_9)
+   in hints.
+
+   _AnyConst matches any constant, without any restrictions.  The others
+   (at most 9 of them) must match different constants.
+
+   The leading _ in the name is to avoid problems when Prolog style
+   variables are used.
+
+2016-nov-02: search_structures.h, provers.c
+
+   New input formulas list "unused".
+
+2016-oct-27: unify.h, unify.c, weight.c
+
+   Distinguished anonymous variables (_, _1, _2 ... _9) in weighting rules.
+
+   _ matches any variable, without any restrictions.  The others (at most 9
+   of them) must match different variables.
+
+2016-oct-24: glist.c
+
+   Replace recursive reverse_plist with nonrecursive version.
+
+   This eliminates the segmentation fault we were sometimes seeing
+   with very large input hint lists.  The problem was a system limit
+   on the size of the recursive stack.
+
+-----------------------------------------------------------------------------
+
+2016-sep-01: release LADR-2016-09A
+
+2016-aug-25: search.c, search-structures.h
+
+   Print the derivations of specified clauses.  This is controlled by
+   new flags print_derivations (default clear) and derivations_only
+   (default set).
+  
+   If print_derivations is set, a list of clause numbers is read
+   from a file named "hitlist".  When a clause on this list is kept,
+   its derivation is printed.  If both print_derivations and
+   derivations_only are set, execution terminates after the last
+   specified derivation is printed.  Otherwise the search for a
+   proof continues.
+
+2016-aug-19: search.{c,h}, hints.{c,h}, prochints.c
+
+   Instead of having a special version of search.c for the prochints
+   utility, there now is a function prochints in search.c and a
+   new main program prochints.c that calls the new function instead
+   of calling the function search.
+
+   Calls to function index_hints in hints.c now include a doprint flag
+   to distinguish the prover9 and prochints cases.
+
+2016-aug-01: clause_eval.c
+
+   Add new evaluation type, CL_EVAL_HINT_AGE.
+  
+   The hint_age given selection rule orders clauses by the hint_age
+   (input order) of their matched hints.  See file topform.c.
+  
+   The CL_EVAL_HINT_AGE evaluation type allows us to put a hint_age
+   condition on the clauses on a hint_age queue.  For example,
+  
+      hint_age < 100
+  
+   means that only hint matchers for the first 100 input hints will
+   appear on this given selection queue.
+
+2016-jun-17: hints.c
+
+   Use hint id assigned at input time (for new hint_age rule).
+
+2016-may-27: search.c, giv_select.c, topform.{c,h}
+
+   Add new given selection rule category (hint_age).
+  
+2016-apr-26: search.c
+
+   Print every 500th when print_given is clear.
+  
+2016-apr-08: search.c
+
+   Patch to print_matched_hints to account for back demodulated hints.
+  
+2016-feb-02: search.c
+
+   Refined hints degradation.
+
+2015-nov-08: search.c, search-structures.h
+
+   Print hints list after input processing.
+
+   Controlled by new flag print_processed_hints (default clear).
+
+   Note that this dumps the list directly, not via the index, so, for
+   example, there might be duplicates due to hint clauses that were
+   demodulated in place.
+
+2015-nov-08: unify.c
+
+   @ in a weight rule matches any constant.
+  
+2015-jan-31: search.c, search-structures.h
+
+   Print hints matched by proof clauses.
+  
+   Controlled by new flag print_matched_hints (default clear).
+  
+2014-sep-08: hints.c
+   
+   Print clauses that are added to the hints index structures.
+  
+   This version is used for the utility prochints, which starts off
+   like an ordinary prover9 job but prints the hints list after
+   processing and terminates.  This is a way to produce a cleaned
+   up set of hints for a series of prover9 runs.
+  
+2013-oct-28: search.c
+
+   Additional print_kept output to note case of back subsuming a
+   hint matcher.
+  
+2013-jul-01: memory.c
+
+   Increase default value for parm max_megs.
