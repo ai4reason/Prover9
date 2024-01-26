@@ -167,7 +167,7 @@ void declare_tptp_input_types(void)
   declare_parse_type("!=",  405, INFIX);           /* added by McCune */
   declare_parse_type("=",   405, INFIX);
 
-  declare_parse_type("~",   410, PREFIX);          /* changed by McCune */
+  declare_parse_type("~",   460, PREFIX);          /* changed by McCune */
 
   declare_parse_type(":",   450, INFIX_RIGHT);
 
