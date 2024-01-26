@@ -1,0 +1,4 @@
+To compile static binaries use:
+
+$ XFLAGS="-static" make all
+
